@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: dubbo-provider-application
+dubbo:
+  application:
+    name: dubbo-provider-application
+    compiler: javassist
+  scan:
+    base-packages: com.demo.provider.service
+  protocol:
+    name: tri
+    port: 20880
+    serialization: protobuf
+    server: netty
+  registry:
+    address: N/A
+  provider:
+    port: 20880
+#  provider:
+#    serialization: dubbo //kryo
+
+server:
+  port: 8080
+  servlet:
+    context-path: /dubbo-demo-provider
+
+logging:
+  pattern:
+    level: trace_id=%mdc{trace_id} span_id=%mdc{span_id} %5p

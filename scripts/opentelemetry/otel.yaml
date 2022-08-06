@@ -1,0 +1,141 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: otel-collector-conf
+  namespace: istio-system
+  labels:
+    app: otel-collector
+data:
+  otel-collector-config: |
+    receivers:
+      otlp:
+        protocols:
+          grpc:
+          http:
+    processors:
+      batch:
+    extensions:
+      zpages: {}
+    exporters:
+      logging:
+        loglevel: debug
+      jaeger:
+        endpoint: 'jaeger-collector.istio-system:14250'
+        tls:
+          insecure: true
+      prometheus:
+        endpoint: 0.0.0.0:8889
+        #endpoint: 'prometheus.istio-system:9090'
+        namespace: promexample
+        const_labels:
+          label1: value1
+    service:
+      extensions: [zpages]
+      pipelines:
+        traces:
+          receivers: [otlp]
+          processors: [batch]
+          exporters: [logging, jaeger]
+        metrics:
+          receivers: [otlp]
+          processors: [batch]
+          exporters: [logging, prometheus]
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: otel-collector
+  namespace: istio-system
+  labels:
+    app: otel-collector
+spec:
+  ports:
+    - name: grpc-otlp # Default endpoint for OpenTelemetry receiver.
+      port: 4317
+      protocol: TCP
+      targetPort: 4317
+      #nodePort: 31387
+    #- name: metrics # Default endpoint for metrics.
+    #  port: 8888
+    #  protocol: TCP
+    - name: metrics
+      port: 8889
+      protocol: TCP
+  selector:
+    app: otel-collector
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: otel-collector
+  namespace: istio-system
+spec:
+  minReadySeconds: 5
+  progressDeadlineSeconds: 120
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: otel-collector
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      annotations:
+        prometheus.io/path: "/metrics"
+        prometheus.io/port: "8889"
+        prometheus.io/scrape: "true"
+      labels:
+        app: otel-collector
+    spec:
+      containers:
+        - command:
+            - "/otelcol"
+            - "--config=/conf/otel-collector-config.yaml"
+          env:
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.name
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.namespace
+          image: otel/opentelemetry-collector:0.38.0
+          imagePullPolicy: IfNotPresent
+          name: otel-collector
+          ports:
+            - containerPort: 4317
+              protocol: TCP
+            #- containerPort: 8888 # Default endpoint for querying metrics
+            - containerPort: 8889
+            - containerPort: 55679 # Default endpoint for ZPages
+          resources:
+            limits:
+              cpu: "2"
+              memory: 4Gi
+            requests:
+              cpu: 200m
+              memory: 400Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+            - name: otel-collector-config-vol
+              mountPath: /conf
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      terminationGracePeriodSeconds: 30
+      volumes:
+        - configMap:
+            defaultMode: 420
+            items:
+              - key: otel-collector-config
+                path: otel-collector-config.yaml
+            name: otel-collector-conf
+          name: otel-collector-config-vol

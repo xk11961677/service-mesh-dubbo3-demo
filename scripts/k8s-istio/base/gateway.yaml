@@ -1,0 +1,16 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: dubbo-self-gateway
+#  namespace: dubbo-self  此处不添加，否则请求不通，第一次竟然请求通了，后期死活不通，需要研究研究istio envoy等网络相关
+spec:
+  selector:
+    istio: ingressgateway # use Istio default gateway implementation
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    #- "dubbo.self.example.com"
+    - "*"

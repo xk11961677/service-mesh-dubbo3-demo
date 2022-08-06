@@ -1,0 +1,102 @@
+apiVersion: apps/v1
+kind: Deployment  #资源类型
+metadata: #元数据
+  name: dubbo-demo-provider
+  namespace: dubbo-self #所属namespace
+  labels:
+    app: dubbo-demo-provider
+    version: v1
+spec:
+  replicas: 1 #pod 实例的期望数
+  selector: # 决定 rc 的操作对象，可省略。必须与模板 label 匹配，否则 `selector` does not match template `labels`
+    matchLabels:
+      app: dubbo-demo-provider
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: dubbo-demo-provider
+        version: v1
+    spec:
+      imagePullSecrets:
+      - name: aliyun
+      containers:
+      - name: dubbo-demo-provider
+        image: registry.cn-hangzhou.aliyuncs.com/sky11961677/dev:dubbo-provider-0.0.1-SNAPSHOT
+        imagePullPolicy: IfNotPresent #Always
+         #command: ["java","-jar","dubbo-provider-0.0.1-SNAPSHOT.jar"]
+        ports:
+        - containerPort: 20880  #对外暴露端口
+          protocol: TCP # supported values: "SCTP", "TCP", "UDP"
+        - containerPort: 8080
+          protocol: TCP
+#        resources:
+#          limits:
+#            cpu: "500m"
+#            memory: 1Gi
+#          requests:
+#            cpu: "500m"
+#            memory: 1Gi
+        livenessProbe: #容器存活探针
+          httpGet: # 定义 http get 探针 ， 或 TCP Socket 或Exec
+            path: /dubbo-demo-provider/actuator  # 指定路径和端口号
+            port: 8080
+          initialDelaySeconds: 11 # 初次探测延迟 11s
+        readinessProbe: #就绪探针，防止pod启动后就暴露给service
+          exec:
+            command:
+              - ls
+              - /var/log
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dubbo-demo-provider-v2
+  namespace: dubbo-self
+  labels:
+    app: dubbo-demo-provider
+    version: v2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dubbo-demo-provider
+      version: v2
+  template:
+    metadata:
+      labels:
+        app: dubbo-demo-provider
+        version: v2
+    spec:
+      imagePullSecrets:
+      - name: aliyun
+      containers:
+      - name: dubbo-demo-provider
+        image: registry.cn-hangzhou.aliyuncs.com/sky11961677/dev:dubbo-provider-0.0.1-SNAPSHOT
+        imagePullPolicy: IfNotPresent
+         #command: ["java","-jar","dubbo-provider-0.0.1-SNAPSHOT.jar"]
+        ports:
+        - containerPort: 20880
+          protocol: TCP
+        - containerPort: 8080
+          protocol: TCP
+#        resources:
+#          limits:
+#            cpu: "500m"
+#            memory: 1Gi
+#          requests:
+#            cpu: "500m"
+#            memory: 1Gi
+        livenessProbe: #容器存活探针
+          httpGet: # 定义 http get 探针 ， 或 TCP Socket 或Exec
+            path: /dubbo-demo-provider/actuator  # 指定路径和端口号
+            port: 8080
+          initialDelaySeconds: 11 # 初次探测延迟 11s
+        readinessProbe: #就绪探针，防止pod启动后就暴露给service
+          exec:
+            command:
+              - ls
+              - /var/log
+

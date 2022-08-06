@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dubbo-demo-consumer
+  namespace: dubbo-self
+  labels:
+    app: dubbo-demo-consumer
+    version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dubbo-demo-consumer
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: dubbo-demo-consumer
+        version: v1
+    spec:
+      imagePullSecrets:
+      - name: aliyun
+      containers:
+      - name: dubbo-demo-consumer
+        image: registry.cn-hangzhou.aliyuncs.com/sky11961677/dev:dubbo-consumer-0.0.1-SNAPSHOT
+        imagePullPolicy: IfNotPresent #Always 、Never
+         #command: ["java","-jar","dubbo-consumer-0.0.1-SNAPSHOT.jar"]
+        ports:
+        - containerPort: 20881
+          protocol: TCP
+        - containerPort: 8081
+          protocol: TCP
+#        resources:
+#          limits:
+#            cpu: "500m"
+#            memory: 1Gi
+#          requests:
+#            cpu: "500m"
+#            memory: 1Gi
+        livenessProbe: #容器存活探针
+          httpGet: # 定义 http get 探针 ， 或 TCP Socket 或Exec
+            path: /dubbo-demo-consumer/actuator  # 指定路径和端口号
+            port: 8081
+          initialDelaySeconds: 11 # 初次探测延迟 11s
+        readinessProbe: #就绪探针，防止pod启动后就暴露给service
+          exec:
+            command:
+              - ls
+              - /var/log
