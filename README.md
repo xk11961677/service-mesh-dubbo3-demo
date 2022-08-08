@@ -84,6 +84,8 @@ e) 消费端入口访问地址: http://172.18.30.246/dubbo-demo-consumer/hello |
 ## 示例图片
 ![istio-dubbo](docs/images/istio-dubbo.png)
 
+![istio-dubbo-opentelemetry](docs/images/istio-dubbo-opentelemetry.png)
+
 ![tracing](docs/images/tracing.png)
 
 ![tracing-istio](docs/images/tracing-istio.png)
