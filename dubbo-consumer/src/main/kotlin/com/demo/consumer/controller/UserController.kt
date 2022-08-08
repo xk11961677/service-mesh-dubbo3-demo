@@ -1,11 +1,8 @@
 package com.demo.consumer.controller
 
 import com.demo.consumer.service.OrderService
-import io.opentelemetry.api.OpenTelemetry
 import io.opentelemetry.api.common.AttributeKey
 import io.opentelemetry.api.common.Attributes
-import io.opentelemetry.api.metrics.LongCounter
-import io.opentelemetry.api.metrics.ObservableDoubleMeasurement
 import io.opentelemetry.api.trace.Span
 import io.opentelemetry.context.Context
 import io.opentelemetry.extension.annotations.SpanAttribute
@@ -19,7 +16,7 @@ import javax.annotation.Resource
 /**
  */
 @RestController
-class UserController(private val opentelemetry: OpenTelemetry) {
+class UserController {
 
     companion object {
         private val logger = LoggerFactory.getLogger(UserController::class.java)
@@ -28,8 +25,6 @@ class UserController(private val opentelemetry: OpenTelemetry) {
 
     @Resource
     private lateinit var orderService: OrderService
-
-    private var directoryCounter: LongCounter ?= null
 
     @GetMapping("/hello")
     fun hello():String {
@@ -53,9 +48,7 @@ class UserController(private val opentelemetry: OpenTelemetry) {
 
         //todo slw Baggage ，添加在 metrics、log、traces 中的注解信息，键值对需要唯一，无法更改
 
-        // metrics test
-        directoryCounter?:create()
-        directoryCounter!!.add(1,atttributes("demo-consumer"))
+
         return buildURL(span.spanContext.traceId)
     }
 
@@ -73,23 +66,5 @@ class UserController(private val opentelemetry: OpenTelemetry) {
 
     private fun atttributes(id: String): Attributes {
         return Attributes.of(AttributeKey.stringKey("app.id"), id)
-    }
-
-    private fun create() {
-        val sampleMeter = opentelemetry.getMeter("dubbo-demo-consumer")
-        directoryCounter = sampleMeter
-            .counterBuilder("directories_search_count")
-            .setDescription("Counts directories accessed while searching for files.")
-            .setUnit("unit")
-            .build()
-
-        sampleMeter.gaugeBuilder("jvm.memory.total")
-            .setDescription("Reports JVM memory usage.")
-            .setUnit("byte")
-            .buildWithCallback { result: ObservableDoubleMeasurement ->
-                result.record(
-                    Runtime.getRuntime().totalMemory().toDouble(), Attributes.empty()
-                )
-            }
     }
 }

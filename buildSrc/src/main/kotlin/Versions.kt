@@ -7,4 +7,5 @@ object Versions {
     const val JACKSON_BOM_VERSION = "2.13.2"
     const val OPENTELEMETRY_BOM_VERSION = "1.16.0"
     const val OPENTELEMETRY_ALPHA_BOM_VERSION  = "1.16.0-alpha"
+    const val GUAVA_VERSION = "31.1-jre"
 }

@@ -13,6 +13,12 @@ jib {
             password = "${System.getenv("JIB_PASSWORD")?:System.getProperty("JIB_PASSWORD")}"
         }
     }
+    extraDirectories.paths {
+        path {
+            setFrom(file("${rootDir}/scripts/extra").toPath())
+            into = "/${project.name}"
+        }
+    }
     container {
         //environment = mapOf("JAVA_TOOL_OPTIONS" to "")
         //args = listOf()

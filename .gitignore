@@ -61,4 +61,4 @@ hs_err_pid*
 
 # 不要忽略这两个jar包
 !gradle/wrapper/gradle-wrapper.jar
-!scripts/opentelemetry-javaagent.jar
+!scripts/extra/*

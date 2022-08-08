@@ -8,15 +8,22 @@ dubbo3 + triple
 
 
 ## 使用说明
-
-1. 启动前添加JVM参数 
+0. 前提
+```
+配置环境变量或修改gradle.properties文件，添加私服与阿里云镜像账号密码
+export NEXUS_USERNAME=私服用户名
+export NEXUS_PASSWORD=私服密码
+export JIB_USERNAME=阿里云镜像账号
+export JIB_PASSWORD=阿里云镜像密码
+```
+1. 启动前添加JVM参数
 ```
 --add-opens java.base/sun.net.util=ALL-UNNAMED --add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/java.math=ALL-UNNAMED
 ```
-2. 启用opentelemetry
+2. 启用opentelemetry添加JVM参数
 ```
--javaagent:scripts/opentelemetry-javaagent.jar
--Dotel.resource.attributes=service.name=dubbo-consumer或者dubbo-provider
+-javaagent:scripts/extra/opentelemetry-javaagent.jar
+-Dotel.resource.attributes=service.name=dubbo-demo-consumer或者dubbo-demo-provider
 
 -Dotel.traces.exporter=jaeger
 -Dotel.exporter.jaeger.endpoint=http://172.18.30.246:31730
@@ -33,14 +40,14 @@ dubbo3 + triple
 
 
 -- demo 
--javaagent:scripts/opentelemetry-javaagent.jar
+-javaagent:scripts/extra/opentelemetry-javaagent.jar
 -Dotel.resource.attributes=service.name=dubbo-demo-provider
 -Dotel.traces.exporter=otlp
 -Dotel.metrics.exporter=otlp
 -Dotel.propagators=b3
 -Dotel.exporter.otlp.endpoint=http://172.18.30.246:32242
 
--javaagent:scripts/opentelemetry-javaagent.jar
+-javaagent:scripts/extra/opentelemetry-javaagent.jar
 -Dotel.resource.attributes=service.name=dubbo-demo-consumer
 -Dotel.traces.exporter=otlp
 -Dotel.metrics.exporter=otlp
@@ -54,6 +61,8 @@ dubbo3 + triple
 [DOCS-CN](https://github.com/open-telemetry/docs-cn)
 [JAVA-DOCS](https://github.com/open-telemetry/opentelemetry-java-docs)
 
+
+```可观测地址
 a) grafana http://172.18.30.246:30611/
 
 b) prometheus http://172.18.30.246:30004/
@@ -62,15 +71,22 @@ c) kiali http://172.18.30.246:30003/
 
 d) jaeger http://172.18.30.246:30415/jaeger
 
+e) 消费端入口访问地址: http://172.18.30.246/dubbo-demo-consumer/hello | http://172.18.30.246/dubbo-demo-consumer/tracing
+```
+
+3. [google jib 镜像打包工具](https://github.com/GoogleContainerTools/jib)
+
+   [如何添加参数到镜像](https://github.com/GoogleContainerTools/jib/blob/master/docs/faq.md#how-do-i-set-parameters-for-my-image-at-runtime)
 
 ## 待完成
-1. dubbo3中kiali流量监控有问题
-2. docker 镜像后与opentelemetry结合使用
+1. 先使用springboot作为存活探针，后期可使用dubbo自定义存活与就绪探针(官方支持扩展)
 
 ## 示例图片
 ![istio-dubbo](docs/images/istio-dubbo.png)
 
 ![tracing](docs/images/tracing.png)
+
+![tracing-istio](docs/images/tracing-istio.png)
 
 ![prometheus](docs/images/prometheus.png)
 

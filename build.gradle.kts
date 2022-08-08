@@ -108,6 +108,8 @@ subprojects {
         }
         testImplementation("io.mockk:mockk:1.12.4")
 
+        implementation("com.google.guava:guava:${Versions.GUAVA_VERSION}")
+
         //region opentelemetry
         implementation("io.opentelemetry:opentelemetry-api")
         //implementation("io.opentelemetry:opentelemetry-sdk")

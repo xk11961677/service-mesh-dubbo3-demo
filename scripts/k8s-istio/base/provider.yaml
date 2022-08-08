@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment  #资源类型
 metadata: #元数据
-  name: dubbo-demo-provider
+  name: dubbo-demo-provider-v1
   namespace: dubbo-self #所属namespace
   labels:
     app: dubbo-demo-provider
@@ -24,6 +24,9 @@ spec:
       - name: dubbo-demo-provider
         image: registry.cn-hangzhou.aliyuncs.com/sky11961677/dev:dubbo-provider-0.0.1-SNAPSHOT
         imagePullPolicy: IfNotPresent #Always
+        env:
+        - name: JAVA_TOOL_OPTIONS #增加opentelemetry javaagent
+          value: "-javaagent:/dubbo-provider/opentelemetry-javaagent.jar -Dotel.resource.attributes=service.name=dubbo-demo-provider -Dotel.traces.exporter=otlp -Dotel.metrics.exporter=otlp -Dotel.propagators=b3 -Dotel.exporter.otlp.endpoint=http://otel-collector.istio-system.svc.cluster.local:4317"
          #command: ["java","-jar","dubbo-provider-0.0.1-SNAPSHOT.jar"]
         ports:
         - containerPort: 20880  #对外暴露端口
@@ -39,7 +42,7 @@ spec:
 #            memory: 1Gi
         livenessProbe: #容器存活探针
           httpGet: # 定义 http get 探针 ， 或 TCP Socket 或Exec
-            path: /dubbo-demo-provider/actuator  # 指定路径和端口号
+            path: /dubbo-demo-provider/actuator/health  # 指定路径和端口号
             port: 8080
           initialDelaySeconds: 11 # 初次探测延迟 11s
         readinessProbe: #就绪探针，防止pod启动后就暴露给service
@@ -76,6 +79,9 @@ spec:
       - name: dubbo-demo-provider
         image: registry.cn-hangzhou.aliyuncs.com/sky11961677/dev:dubbo-provider-0.0.1-SNAPSHOT
         imagePullPolicy: IfNotPresent
+        env:
+        - name: JAVA_TOOL_OPTIONS #增加opentelemetry javaagent
+          value: "-javaagent:/dubbo-provider/opentelemetry-javaagent.jar -Dotel.resource.attributes=service.name=dubbo-demo-provider -Dotel.traces.exporter=otlp -Dotel.metrics.exporter=otlp -Dotel.propagators=b3 -Dotel.exporter.otlp.endpoint=http://otel-collector.istio-system.svc.cluster.local:4317"
          #command: ["java","-jar","dubbo-provider-0.0.1-SNAPSHOT.jar"]
         ports:
         - containerPort: 20880
@@ -91,7 +97,7 @@ spec:
 #            memory: 1Gi
         livenessProbe: #容器存活探针
           httpGet: # 定义 http get 探针 ， 或 TCP Socket 或Exec
-            path: /dubbo-demo-provider/actuator  # 指定路径和端口号
+            path: /dubbo-demo-provider/actuator/health  # 指定路径和端口号
             port: 8080
           initialDelaySeconds: 11 # 初次探测延迟 11s
         readinessProbe: #就绪探针，防止pod启动后就暴露给service

@@ -1,6 +1,6 @@
 ## 以下文件为networking  istio
-gateway.yaml
-gateway-route.yaml
+ingress-gateway.yaml
+egress-gateway.yaml
 
 ## 以下文件为k8s namespace inject to istio
 ns.yaml
@@ -9,9 +9,12 @@ ns.yaml
 consumer.yaml
 provider.yaml
 service.yaml
+### 定义路由规则与目标规则
 vm-service.yaml
 
-## 以下文件为ServiceEntry
-egress-rule-kylin-apis.yaml
+## 以下文件为ServiceEntry ，用于网格外服务交由网格管理，也可提供外部访问
+service-entry.yaml
 
 ## 以下文件为policy envoy rate filter
+
+

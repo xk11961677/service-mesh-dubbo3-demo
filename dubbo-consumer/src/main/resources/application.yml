@@ -1,6 +1,7 @@
 spring:
   application:
     name: dubbo-consumer-application
+
 dubbo:
   application:
     name: dubbo-consumer-application
@@ -11,8 +12,7 @@ dubbo:
     serialization: protobuf
   registry:
     address: N/A
-  port:
-    20881
+
 server:
   port: 8081
   servlet:
@@ -21,3 +21,14 @@ server:
 logging:
   pattern:
     level: trace_id=%mdc{trace_id} span_id=%mdc{span_id} %5p
+
+
+management:
+  endpoint:
+    health:
+      show-details: always  # health显示详细信息
+  endpoints:
+    web:
+      exposure:
+        include: "*" #暴露全部endpoint
+      base-path: /actuator  #默认endpoint前缀，可修改为 /

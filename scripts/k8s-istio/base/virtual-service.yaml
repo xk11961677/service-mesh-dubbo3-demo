@@ -23,16 +23,18 @@ spec:
 ---
 
 apiVersion: networking.istio.io/v1alpha3
-kind: DestinationRule
+kind: VirtualService
 metadata:
-  name: dubbo-demo-provider-subset
+  name: dubbo-demo-consumer-vs
   namespace: dubbo-self
 spec:
-  host: dubbo-demo-provider
-  subsets:
-    - name: v1
-      labels:
-        version: v1
-    - name: v2
-      labels:
-        version: v2
+  hosts:
+    - dubbo-demo-consumer
+  http:
+    - route:
+        - destination:
+            host: dubbo-demo-consumer
+            port:
+              number: 8081
+            subset: v1
+
