@@ -2,7 +2,7 @@ apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
   name: dubbo-self-egress-gateway
-#  namespace: dubbo-self  此处不添加，否则请求不通，第一次竟然请求通了，后期死活不通，需要研究研究istio envoy等网络相关
+  namespace: dubbo-self
 spec:
   selector:
     istio: engressgateway # use Istio default gateway implementation
@@ -21,17 +21,25 @@ apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
   name: dubbo-self-egress-gateway-vm
-#  namespace: dubbo-self  此处不添加，否则请求不通，第一次竟然请求通了，后期死活不通，需要研究研究istio envoy等网络相关
+  namespace: dubbo-self
 spec:
   hosts:
     - "www.baidu.com"
   gateways:
     - dubbo-self-egress-gateway
+    - mesh
   http:
+    - match:
+        - gateways:
+            - mesh
+          port: 80
+      route:
+      - destination:
+          host: egress-gateway.istio-system.svc.cluster.local
     - match:
         - gateways:
             - egress-gateway.istio-system.svc.cluster.local
           port: 80
-      route:
-      - destination:
-          host: dubbo-demo-consumer.dubbo-self.svc.cluster.local
+        route:
+          - destination:
+              host: www.baidu.com
