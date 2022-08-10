@@ -1,0 +1,17 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: dubbo-demo-provider-subset
+  namespace: dubbo-self
+spec:
+  host: stag-dubbo-demo-provider
+
+---
+
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: dubbo-demo-consumer-subset
+  namespace: dubbo-self
+spec:
+  host: stag-dubbo-demo-consumer

@@ -1,0 +1,14 @@
+namePrefix: stag-
+commonLabels:
+  variant: stag
+commonAnnotations:
+  note: Hello, This is stag!
+patchesStrategicMerge:
+  - destination-rule.yaml
+  - virtual-service.yaml
+  - ingress-gateway.yaml
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../base
+namespace: stag-dubbo-self

@@ -107,7 +107,7 @@ kubectl create secret docker-registry aliyun \
 ## 待完成
 1. 先使用springboot作为存活探针，后期可使用dubbo自定义存活与就绪探针(官方支持扩展)
 2. k8s configmap springboot热更新
-3. 现阶段使用kustomize管理需要自己手动创建namespace与secret，另使用
+3. 现阶段使用kustomize管理需要自己手动创建namespace，另使用namePrefix等很多host需要修改，项目DubboReference的url也需要改(application.properties配置)
 
 ## 示例图片
 ![istio-dubbo](docs/images/istio-dubbo.png)
