@@ -75,8 +75,25 @@ e) 消费端入口访问地址: http://172.18.30.246/dubbo-demo-consumer/hello |
 ```
 
 3. [google jib 镜像打包工具](https://github.com/GoogleContainerTools/jib)
+     [如何添加参数到镜像](https://github.com/GoogleContainerTools/jib/blob/master/docs/faq.md#how-do-i-set-parameters-for-my-image-at-runtime)
 
-   [如何添加参数到镜像](https://github.com/GoogleContainerTools/jib/blob/master/docs/faq.md#how-do-i-set-parameters-for-my-image-at-runtime)
+4. [Kustomize管理yaml清单](https://kubernetes.io/zh-cn/docs/tasks/manage-kubernetes-objects/kustomization/)
+
+```
+#使用命令将所有文件串联
+kustomize build ../base
+
+
+# 直接使用kubectl apply -k （集群版本要高于1.14）
+kubectl apply -k ../base/
+# 还可以通过kustomize命令
+kustomize build ../base | kubectl apply -f -
+
+
+#发布使用dev目录
+kustomize build overlays/dev/ | kubectl apply -f -
+```
+
 
 ## 待完成
 1. 先使用springboot作为存活探针，后期可使用dubbo自定义存活与就绪探针(官方支持扩展)

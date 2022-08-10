@@ -8,7 +8,7 @@ metadata:
 spec:
 #  sessionAffinity: ClientIP # or None default , 保证一个 Client 的所有请求都只会落到同一个 Pod 上
   ports:
-  - name: dubbo-demo-provider
+  - name: dubbo-demo-provider-tcp
     protocol: TCP
     port: 20880
     targetPort: 20880
@@ -32,7 +32,7 @@ metadata:
 spec:
   #  sessionAffinity: ClientIP # or None default , 保证一个 Client 的所有请求都只会落到同一个 Pod 上
   ports:
-    - name: dubbo-demo-consumer
+    - name: dubbo-demo-consumer-http
       protocol: TCP
       port: 8081
       targetPort: 8081

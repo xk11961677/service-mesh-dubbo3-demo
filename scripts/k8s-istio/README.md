@@ -18,3 +18,28 @@ service-entry.yaml
 ## 以下文件为policy envoy rate filter
 
 
+## [Kustomize管理yaml清单](https://kubernetes.io/zh-cn/docs/tasks/manage-kubernetes-objects/kustomization/)
+
+[阿里云社区文章](https://developer.aliyun.com/article/941534)
+
+### 目录说明
+    base目录基础模板
+    dev目录下存放开发环境定制清单
+    stag目录下存放预发环境定制清单
+    prod目录下存放生产环境定制清单
+
+### 使用命令
+```
+#使用命令将所有文件串联
+kustomize build ../base
+
+
+# 直接使用kubectl apply -k （集群版本要高于1.14）
+kubectl apply -k ../base/
+# 还可以通过kustomize命令
+kustomize build ../base | kubectl apply -f -
+
+
+#发布使用dev目录
+kustomize build overlays/dev/ | kubectl apply -f -
+```

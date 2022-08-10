@@ -1,0 +1,11 @@
+commonLabels:
+  app: dubbo-self-demo
+
+resources:
+#  - ns.yaml
+  - provider.yaml
+  - consumer.yaml
+  - service.yaml
+  - destination-rule.yaml
+  - virtual-service.yaml
+  - ingress-gateway.yaml
