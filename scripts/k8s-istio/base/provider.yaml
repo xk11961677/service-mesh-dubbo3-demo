@@ -99,7 +99,7 @@ spec:
           httpGet: # 定义 http get 探针 ， 或 TCP Socket 或Exec
             path: /dubbo-demo-provider/actuator/health  # 指定路径和端口号
             port: 8080
-          initialDelaySeconds: 11 # 初次探测延迟 11s
+          initialDelaySeconds: 50 # 初次探测延迟 50s
         readinessProbe: #就绪探针，防止pod启动后就暴露给service
           exec:
             command:

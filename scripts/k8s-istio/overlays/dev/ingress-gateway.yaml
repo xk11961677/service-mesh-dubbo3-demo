@@ -1,24 +1,4 @@
 apiVersion: networking.istio.io/v1alpha3
-kind: Gateway
-metadata:
-  name: dubbo-self-ingress-gateway
-  namespace: dubbo-self
-spec:
-  selector:
-    istio: ingressgateway # use Istio default gateway implementation
-  servers:
-  - port:
-      number: 80
-      name: http
-      protocol: HTTP
-    hosts:
-    #- "dubbo.self.example.com"
-    - "*"
-
-
----
-
-apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
   name: dubbo-self-ingress-gateway-vm
@@ -38,7 +18,7 @@ spec:
         - destination:
             port:
               number: 8081
-            host: dubbo-demo-consumer.dubbo-self.svc.cluster.local
+            host: dubbo-demo-consumer
             subset: v1  #指定到特定子集
     - match:
         - uri:
@@ -47,4 +27,4 @@ spec:
         - destination:
             port:
               number: 8080
-            host: dubbo-demo-provider.dubbo-self.svc.cluster.local
+            host: dubbo-demo-provider

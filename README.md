@@ -16,7 +16,7 @@ export NEXUS_PASSWORD=私服密码
 export JIB_USERNAME=阿里云镜像账号
 export JIB_PASSWORD=阿里云镜像密码
 ```
-1. 启动前添加JVM参数
+1. 启动前添加JVM参数 
 ```
 --add-opens java.base/sun.net.util=ALL-UNNAMED --add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/java.math=ALL-UNNAMED
 ```
@@ -94,9 +94,20 @@ kustomize build ../base | kubectl apply -f -
 kustomize build overlays/dev/ | kubectl apply -f -
 ```
 
+5. 使用k8s部署前，请在对应namespace添加secret资源
+```
+kubectl create secret docker-registry aliyun \
+--docker-server=registry.cn-hangzhou.aliyuncs.com \
+--docker-username=阿里云镜像仓库名称 \
+--docker-password=阿里云镜像仓库密码 \
+--docker-email=邮箱 \
+-n [namespace]
+```
 
 ## 待完成
 1. 先使用springboot作为存活探针，后期可使用dubbo自定义存活与就绪探针(官方支持扩展)
+2. k8s configmap springboot热更新
+3. 现阶段使用kustomize管理需要自己手动创建namespace与secret，另使用
 
 ## 示例图片
 ![istio-dubbo](docs/images/istio-dubbo.png)

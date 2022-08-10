@@ -32,7 +32,8 @@ service-entry.yaml
 ```
 #使用命令将所有文件串联
 kustomize build ../base
-
+# 或者
+kubectl kustomize build ../base
 
 # 直接使用kubectl apply -k （集群版本要高于1.14）
 kubectl apply -k ../base/
@@ -42,4 +43,7 @@ kustomize build ../base | kubectl apply -f -
 
 #发布使用dev目录
 kustomize build overlays/dev/ | kubectl apply -f -
+
+#查看生成的yaml清单
+kubectl kustomize overlays/dev/ -o dev-all.yaml
 ```

@@ -1,5 +1,5 @@
 commonLabels:
-  app: dubbo-self-demo
+  appType: dubbo-self-demo
 
 resources:
 #  - ns.yaml
