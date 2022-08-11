@@ -5,6 +5,10 @@ metadata:
   namespace: dubbo-self
 spec:
   host: dubbo-demo-provider
+  trafficPolicy:
+    loadBalancer:
+      # Envoy load balancing strategy
+      simple: ROUND_ROBIN
   subsets:
     - name: v1
       labels:

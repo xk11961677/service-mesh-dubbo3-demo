@@ -13,7 +13,13 @@ class UserApiImpl : UserApi {
     }
 
     override fun sayHello(name: String): String {
-        logger.info("1生产端sayHello : {}$name")
-        return "hello $name ， ServerContext="+ RpcContext.getServerContext().localAddress +" CurrentServiceContext="+ RpcContext.getCurrentServiceContext().localAddress
+        logger.info("生产端sayHello : {}$name")
+        val isProviderSide = RpcContext.getContext().isProviderSide
+        val clientIP = RpcContext.getContext().remoteHost
+        val remoteApplication = RpcContext.getContext().remoteApplicationName
+        val application = RpcContext.getContext().url.getParameter("application")
+        val protocol = RpcContext.getContext().protocol
+        return "hello, $name , response from provider-v1: ${RpcContext.getContext().localAddress} , client: $clientIP, " +
+                "local: $application, remote: $remoteApplication , isProviderSide: $isProviderSide , protocol: $protocol"
     }
 }

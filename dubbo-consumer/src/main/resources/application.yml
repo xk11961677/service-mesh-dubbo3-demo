@@ -12,6 +12,8 @@ dubbo:
     serialization: protobuf
   registry:
     address: N/A
+  consumer:
+    timeout: 30000
 
 server:
   port: 8081

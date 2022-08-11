@@ -178,7 +178,7 @@ subprojects {
 
         withType<BootJar>().configureEach {
             /*if(jarModules.contains(project)) {
-                // todo slw 关闭后,因为apply springboot插件还是会生成plain后缀jar包,所以改到apply判断
+                // todo sky 关闭后,因为apply springboot插件还是会生成plain后缀jar包,所以改到apply判断
                 //另一种写法,待测试 ， 跳过某个人物,
                 // whenTaskAdded {
                 //    if (jarModules.contains(project)) {
@@ -197,7 +197,7 @@ subprojects {
 
         withType<JavaCompile>().configureEach {
             options.encoding = "UTF-8"
-            options.compilerArgs.addAll(listOf("-parameters", "-deprecation"))
+            options.compilerArgs.addAll(listOf("-parameters","-deprecation"))
             sourceCompatibility = "17"
             targetCompatibility = "17"
         }
@@ -208,7 +208,7 @@ subprojects {
                 apiVersion = "1.7"
                 freeCompilerArgs = freeCompilerArgs + listOf("-Xjvm-default=all-compatibility","-Xjsr305=strict")
                 jvmTarget = "17"
-                allWarningsAsErrors = true
+                allWarningsAsErrors = false
             }
         }
 

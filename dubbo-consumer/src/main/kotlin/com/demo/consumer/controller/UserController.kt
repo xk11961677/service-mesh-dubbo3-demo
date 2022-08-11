@@ -46,7 +46,7 @@ class UserController {
         span.addEvent("asyncHello.start", atttributes("demo-consumer"))
         span.addEvent("asyncHello.end", atttributes("demo-consumer"))
 
-        //todo slw Baggage ，添加在 metrics、log、traces 中的注解信息，键值对需要唯一，无法更改
+        //todo sky Baggage ，添加在 metrics、log、traces 中的注解信息，键值对需要唯一，无法更改
 
 
         return buildURL(span.spanContext.traceId)

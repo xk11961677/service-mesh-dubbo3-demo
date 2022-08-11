@@ -17,6 +17,8 @@ spec:
       labels:
         app: dubbo-demo-provider
         version: v1
+#      annotations:
+#        sidecar.istio.io/rewriteAppHTTPProbers: "false" #防止 istio 重写 http 探针到envoy
     spec:
       imagePullSecrets:
       - name: aliyun
@@ -29,9 +31,11 @@ spec:
           value: "-javaagent:/dubbo-provider/opentelemetry-javaagent.jar -Dotel.resource.attributes=service.name=dubbo-demo-provider -Dotel.traces.exporter=otlp -Dotel.metrics.exporter=otlp -Dotel.propagators=b3 -Dotel.exporter.otlp.endpoint=http://otel-collector.istio-system.svc.cluster.local:4317"
          #command: ["java","-jar","dubbo-provider-0.0.1-SNAPSHOT.jar"]
         ports:
-        - containerPort: 20880  #对外暴露端口
+        - name: grpc-tri
+          containerPort: 20880  #对外暴露端口
           protocol: TCP # supported values: "SCTP", "TCP", "UDP"
-        - containerPort: 8080
+        - name: http-provider
+          containerPort: 8080
           protocol: TCP
 #        resources:
 #          limits:
@@ -50,6 +54,14 @@ spec:
             command:
               - ls
               - /var/log
+#        startupProbe:
+#          httpGet:
+#            path: /dubbo-demo-provider/actuator/health
+#            port: http-health
+#          failureThreshold: 30
+#          initialDelaySeconds: 50
+#          periodSeconds: 10
+#          timeoutSeconds: 3
 
 ---
 
@@ -105,4 +117,11 @@ spec:
             command:
               - ls
               - /var/log
-
+#        startupProbe:
+#          httpGet:
+#            path: /dubbo-demo-provider/actuator/health
+#            port: http-health
+#          failureThreshold: 30
+#          initialDelaySeconds: 50
+#          periodSeconds: 10
+#          timeoutSeconds: 3

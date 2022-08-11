@@ -17,6 +17,8 @@ spec:
       labels:
         app: dubbo-demo-consumer
         version: v1
+#      annotations:
+#        sidecar.istio.io/rewriteAppHTTPProbers: "false" # 防止 istio 重写 http 探针到envoy
     spec:
       imagePullSecrets:
       - name: aliyun
@@ -29,9 +31,11 @@ spec:
         - name: JAVA_TOOL_OPTIONS #增加opentelemetry javaagent
           value: "-javaagent:/dubbo-consumer/opentelemetry-javaagent.jar -Dotel.resource.attributes=service.name=dubbo-demo-consumer -Dotel.traces.exporter=otlp -Dotel.metrics.exporter=otlp -Dotel.propagators=b3 -Dotel.exporter.otlp.endpoint=http://otel-collector.istio-system.svc.cluster.local:4317"
         ports:
-        - containerPort: 20881
+        - name: grpc-tri
+          containerPort: 20881
           protocol: TCP
-        - containerPort: 8081
+        - name: http-consumer
+          containerPort: 8081
           protocol: TCP
 #        resources:
 #          limits:
@@ -45,8 +49,18 @@ spec:
             path: /dubbo-demo-consumer/actuator/health  # 指定路径和端口号
             port: 8081
           initialDelaySeconds: 50 # 初次探测延迟 50s
+          periodSeconds: 10
+          timeoutSeconds: 3
         readinessProbe: #就绪探针，防止pod启动后就暴露给service
           exec:
             command:
               - ls
               - /var/log
+#        startupProbe:
+#          httpGet:
+#            path: /dubbo-demo-consumer/actuator/health
+#            port: http-health
+#          failureThreshold: 30
+#          initialDelaySeconds: 50
+#          periodSeconds: 10
+#          timeoutSeconds: 3

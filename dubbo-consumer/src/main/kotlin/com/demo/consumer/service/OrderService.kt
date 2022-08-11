@@ -11,8 +11,8 @@ class OrderService {
     companion object {
         private val logger = LoggerFactory.getLogger(OrderService::class.java)
     }
-    // todo slw 测试连接数问题
-    @DubboReference(url=UserApi.URL,check=false, proxy = "javassist", connections = 10)
+    // todo sky 测试连接数问题
+    @DubboReference(url=UserApi.URL,check=false, proxy = "javassist", connections = 1, lazy = true)
     private lateinit var userApi: UserApi
 
     fun sayHello(): String {

@@ -16,7 +16,7 @@ export NEXUS_PASSWORD=私服密码
 export JIB_USERNAME=阿里云镜像账号
 export JIB_PASSWORD=阿里云镜像密码
 ```
-1. 启动前添加JVM参数 
+1. 启动前添加JVM参数
 ```
 --add-opens java.base/sun.net.util=ALL-UNNAMED --add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/java.math=ALL-UNNAMED
 ```
@@ -75,7 +75,7 @@ e) 消费端入口访问地址: http://172.18.30.246/dubbo-demo-consumer/hello |
 ```
 
 3. [google jib 镜像打包工具](https://github.com/GoogleContainerTools/jib)
-     [如何添加参数到镜像](https://github.com/GoogleContainerTools/jib/blob/master/docs/faq.md#how-do-i-set-parameters-for-my-image-at-runtime)
+   [如何添加参数到镜像](https://github.com/GoogleContainerTools/jib/blob/master/docs/faq.md#how-do-i-set-parameters-for-my-image-at-runtime)
 
 4. [Kustomize管理yaml清单](https://kubernetes.io/zh-cn/docs/tasks/manage-kubernetes-objects/kustomization/)
 
@@ -100,10 +100,14 @@ kubectl create secret docker-registry aliyun \
 -n [namespace]
 ```
 
+6. [k8s切换namespace等功能](https://github.com/sbstp/kubie)
+
 ## 待完成
 1. 先使用springboot作为存活探针，后期可使用dubbo自定义存活与就绪探针(官方支持扩展)
 2. k8s configmap springboot热更新
 3. 现阶段使用kustomize管理需要自己手动创建namespace，另使用namePrefix，项目DubboReference的url也需要改(application.properties配置)
+4. 需要使用kustomize替换镜像版本和环境变量等
+
 
 ## 示例图片
 ![istio-dubbo](docs/images/istio-dubbo.png)

@@ -3,12 +3,11 @@ kind: Service
 metadata:
   name: dubbo-demo-provider
   namespace: dubbo-self
-#  labels:
-#    name: dubbo-demo-provider  #此处名称标签先注释掉，因使用kustomize添加namePrefix这里不变
 spec:
-#  sessionAffinity: ClientIP # or None default , 保证一个 Client 的所有请求都只会落到同一个 Pod 上
+  type: ClusterIP
+  sessionAffinity: None #ClientIP # or None default , 保证一个 Client 的所有请求都只会落到同一个 Pod 上
   ports:
-  - name: tcp-dubbo-demo-provider
+  - name: grpc-dubbo-demo-provider
     protocol: TCP
     port: 20880
     targetPort: 20880
@@ -27,10 +26,9 @@ kind: Service
 metadata:
   name: dubbo-demo-consumer
   namespace: dubbo-self
-#  labels:
-#    name: dubbo-demo-consumer
 spec:
-  #  sessionAffinity: ClientIP # or None default , 保证一个 Client 的所有请求都只会落到同一个 Pod 上
+  type: ClusterIP
+  sessionAffinity: None #ClientIP # or None default , 保证一个 Client 的所有请求都只会落到同一个 Pod 上
   ports:
     - name: http-dubbo-demo-consumer
       protocol: TCP

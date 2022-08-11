@@ -17,6 +17,10 @@ service-entry.yaml
 
 ## 以下文件为policy envoy rate filter
 
+## 以下文件为envoy主动通过grpc检测provider是否存活
+envoy-filter.yaml
+[envoy健康检查配置手册](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/core/v3/health_check.proto#envoy-v3-api-msg-config-core-v3-healthcheck)
+
 
 ## [Kustomize管理yaml清单](https://kubernetes.io/zh-cn/docs/tasks/manage-kubernetes-objects/kustomization/)
 
