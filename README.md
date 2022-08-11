@@ -80,18 +80,14 @@ e) 消费端入口访问地址: http://172.18.30.246/dubbo-demo-consumer/hello |
 4. [Kustomize管理yaml清单](https://kubernetes.io/zh-cn/docs/tasks/manage-kubernetes-objects/kustomization/)
 
 ```
-#使用命令将所有文件串联
-kustomize build ../base
+#使用命令将所有文件串联并导出prod-all.yaml ，(在scripts/k8s-istio/overlays/prod目录下操作)
+kubectl kustomize ./ > prod-all.yaml
 
+#发布使用prod目录 （集群版本要高于1.14）
+kubectl apply -k ./
 
-# 直接使用kubectl apply -k （集群版本要高于1.14）
-kubectl apply -k ../base/
-# 还可以通过kustomize命令
-kustomize build ../base | kubectl apply -f -
-
-
-#发布使用dev目录
-kustomize build overlays/dev/ | kubectl apply -f -
+#删除prod目录资源
+kubectl delete -k ./
 ```
 
 5. 使用k8s部署前，请在对应namespace添加secret资源
@@ -107,7 +103,7 @@ kubectl create secret docker-registry aliyun \
 ## 待完成
 1. 先使用springboot作为存活探针，后期可使用dubbo自定义存活与就绪探针(官方支持扩展)
 2. k8s configmap springboot热更新
-3. 现阶段使用kustomize管理需要自己手动创建namespace，另使用namePrefix等很多host需要修改，项目DubboReference的url也需要改(application.properties配置)
+3. 现阶段使用kustomize管理需要自己手动创建namespace，另使用namePrefix，项目DubboReference的url也需要改(application.properties配置)
 
 ## 示例图片
 ![istio-dubbo](docs/images/istio-dubbo.png)

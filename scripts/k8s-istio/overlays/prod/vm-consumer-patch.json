@@ -1,0 +1,12 @@
+[
+  {
+    "op": "replace",
+    "path": "/spec/hosts/0",
+    "value": "prod-dubbo-demo-consumer"
+  },
+  {
+    "op": "replace",
+    "path": "/spec/http/0/route/0/destination/host",
+    "value": "prod-dubbo-demo-consumer"
+  }
+]

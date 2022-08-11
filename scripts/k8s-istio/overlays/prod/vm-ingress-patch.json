@@ -1,0 +1,17 @@
+[
+  {
+    "op": "replace",
+    "path": "/spec/gateways/0",
+    "value": "prod-dubbo-self-ingress-gateway"
+  },
+  {
+    "op": "replace",
+    "path": "/spec/http/0/route/0/destination/host",
+    "value": "prod-dubbo-demo-consumer"
+  },
+  {
+    "op": "replace",
+    "path": "/spec/http/1/route/0/destination/host",
+    "value": "prod-dubbo-demo-provider"
+  }
+]

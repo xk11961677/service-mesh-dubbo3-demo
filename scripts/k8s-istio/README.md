@@ -30,20 +30,12 @@ service-entry.yaml
 
 ### 使用命令
 ```
-#使用命令将所有文件串联
-kustomize build ../base
-# 或者
-kubectl kustomize build ../base
+#使用命令将所有文件串联并导出prod-all.yaml ，(在scripts/k8s-istio/overlays/prod目录下操作)
+kubectl kustomize ./ > prod-all.yaml
 
-# 直接使用kubectl apply -k （集群版本要高于1.14）
-kubectl apply -k ../base/
-# 还可以通过kustomize命令
-kustomize build ../base | kubectl apply -f -
+#发布使用prod目录 （集群版本要高于1.14）
+kubectl apply -k ./
 
-
-#发布使用dev目录
-kustomize build overlays/dev/ | kubectl apply -f -
-
-#查看生成的yaml清单
-kubectl kustomize overlays/dev/ -o dev-all.yaml
+#删除prod目录资源
+kubectl delete -k ./
 ```
