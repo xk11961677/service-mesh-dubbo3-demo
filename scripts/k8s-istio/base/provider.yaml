@@ -48,7 +48,9 @@ spec:
           httpGet: # 定义 http get 探针 ， 或 TCP Socket 或Exec
             path: /dubbo-demo-provider/actuator/health  # 指定路径和端口号
             port: 8080
-          initialDelaySeconds: 11 # 初次探测延迟 11s
+          initialDelaySeconds: 50 # 初次探测延迟 50s
+          periodSeconds: 10
+          timeoutSeconds: 3
         readinessProbe: #就绪探针，防止pod启动后就暴露给service
           exec:
             command:
@@ -96,9 +98,11 @@ spec:
           value: "-javaagent:/dubbo-provider/opentelemetry-javaagent.jar -Dotel.resource.attributes=service.name=dubbo-demo-provider -Dotel.traces.exporter=otlp -Dotel.metrics.exporter=otlp -Dotel.propagators=b3 -Dotel.exporter.otlp.endpoint=http://otel-collector.istio-system.svc.cluster.local:4317"
          #command: ["java","-jar","dubbo-provider-0.0.1-SNAPSHOT.jar"]
         ports:
-        - containerPort: 20880
+        - name: grpc-tri
+          containerPort: 20880
           protocol: TCP
-        - containerPort: 8080
+        - name: http-provider
+          containerPort: 8080
           protocol: TCP
 #        resources:
 #          limits:
@@ -112,6 +116,8 @@ spec:
             path: /dubbo-demo-provider/actuator/health  # 指定路径和端口号
             port: 8080
           initialDelaySeconds: 50 # 初次探测延迟 50s
+          periodSeconds: 10
+          timeoutSeconds: 3
         readinessProbe: #就绪探针，防止pod启动后就暴露给service
           exec:
             command:

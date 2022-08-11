@@ -13,13 +13,13 @@ spec:
             port:
               number: 20880
             subset: v1
-          weight: 50
+          weight: 20
         - destination:
             host: dubbo-demo-provider
             port:
               number: 20880
             subset: v2
-          weight: 50
+          weight: 80
 ---
 
 apiVersion: networking.istio.io/v1alpha3
