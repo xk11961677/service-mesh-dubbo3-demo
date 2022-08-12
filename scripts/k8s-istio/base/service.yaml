@@ -18,7 +18,6 @@ spec:
   selector:
     app: dubbo-demo-provider
 
-
 ---
 
 apiVersion: v1
@@ -30,9 +29,9 @@ spec:
   type: ClusterIP
   sessionAffinity: None #ClientIP # or None default , 保证一个 Client 的所有请求都只会落到同一个 Pod 上
   ports:
-    - name: http-dubbo-demo-consumer
-      protocol: TCP
-      port: 8081
-      targetPort: 8081
+  - name: http-dubbo-demo-consumer
+    protocol: TCP
+    port: 8081
+    targetPort: 8081
   selector:
     app: dubbo-demo-consumer

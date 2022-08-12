@@ -5,21 +5,22 @@ metadata:
   namespace: dubbo-self
 spec:
   hosts:
-    - stag-dubbo-demo-provider
-  tcp:
-    - route:
-        - destination:
-            host: stag-dubbo-demo-provider
-            port:
-              number: 20880
-            subset: v1
-          weight: 50
-        - destination:
-            host: stag-dubbo-demo-provider
-            port:
-              number: 20880
-            subset: v2
-          weight: 50
+  - stag-dubbo-demo-provider
+  http:
+  - route:
+    - destination:
+        host: stag-dubbo-demo-provider
+        port:
+          number: 20880
+        subset: v1
+      weight: 40
+    - destination:
+        host: stag-dubbo-demo-provider
+        port:
+          number: 20880
+        subset: v2
+      weight: 60
+
 ---
 
 apiVersion: networking.istio.io/v1alpha3
@@ -29,12 +30,12 @@ metadata:
   namespace: dubbo-self
 spec:
   hosts:
-    - stag-dubbo-demo-consumer
+  - stag-dubbo-demo-consumer
   http:
-    - route:
-        - destination:
-            host: stag-dubbo-demo-consumer
-            port:
-              number: 8081
-            subset: v1
+  - route:
+    - destination:
+        host: stag-dubbo-demo-consumer
+        port:
+          number: 8081
+        subset: v1
 

@@ -6,4 +6,4 @@ metadata:
     istio-injection: enabled  #注入istio
 spec:
   finalizers:
-    - kubernetes
+  - kubernetes

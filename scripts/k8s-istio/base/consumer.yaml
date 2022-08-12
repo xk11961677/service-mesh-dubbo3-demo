@@ -25,7 +25,7 @@ spec:
       containers:
       - name: dubbo-demo-consumer
         image: registry.cn-hangzhou.aliyuncs.com/sky11961677/dev:dubbo-consumer-0.0.1-SNAPSHOT
-        imagePullPolicy: IfNotPresent #Always 、Never
+        imagePullPolicy: Always #Always 、Never 、IfNotPresent
          #command: ["java","-jar","dubbo-consumer-0.0.1-SNAPSHOT.jar"]
         env:
         - name: JAVA_TOOL_OPTIONS #增加opentelemetry javaagent

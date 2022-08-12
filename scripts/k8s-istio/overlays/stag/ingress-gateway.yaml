@@ -1,38 +1,30 @@
 apiVersion: networking.istio.io/v1alpha3
-kind: Gateway
-metadata:
-  name: dubbo-self-ingress-gateway
-  namespace: dubbo-self
-
----
-
-apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
   name: dubbo-self-ingress-gateway-vm
   namespace: dubbo-self
 spec:
   hosts:
-    - "172.18.30.246"
+  - "172.18.30.246"
   gateways:
-    - stag-dubbo-self-ingress-gateway
+  - stag-dubbo-self-ingress-gateway
   http:
-    - match:
-        - uri:
-            exact: /hello
-        - uri:
-            prefix: /dubbo-demo-consumer
-      route:
-        - destination:
-            port:
-              number: 8081
-            host: stag-dubbo-demo-consumer
-            subset: v1  #指定到特定子集
-    - match:
-        - uri:
-            prefix: /dubbo-demo-provider
-      route:
-        - destination:
-            port:
-              number: 8080
-            host: stag-dubbo-demo-provider
+  - match:
+    - uri:
+        exact: /hello
+    - uri:
+        prefix: /dubbo-demo-consumer
+    route:
+    - destination:
+        port:
+          number: 8081
+        host: stag-dubbo-demo-consumer
+        subset: v1  #指定到特定子集
+  - match:
+    - uri:
+        prefix: /dubbo-demo-provider
+    route:
+    - destination:
+        port:
+          number: 8080
+        host: stag-dubbo-demo-provider

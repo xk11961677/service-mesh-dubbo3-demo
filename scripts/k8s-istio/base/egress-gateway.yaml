@@ -14,7 +14,6 @@ spec:
     hosts:
     - "www.baidu.com"
 
-
 ---
 
 apiVersion: networking.istio.io/v1alpha3
@@ -24,22 +23,22 @@ metadata:
   namespace: dubbo-self
 spec:
   hosts:
-    - "www.baidu.com"
+  - "www.baidu.com"
   gateways:
-    - dubbo-self-egress-gateway
-    - mesh
+  - dubbo-self-egress-gateway
+  - mesh
   http:
-    - match:
-        - gateways:
-            - mesh
-          port: 80
-      route:
-      - destination:
-          host: egress-gateway.istio-system.svc.cluster.local
-    - match:
-        - gateways:
-            - egress-gateway.istio-system.svc.cluster.local
-          port: 80
-        route:
-          - destination:
-              host: www.baidu.com
+  - match:
+    - gateways:
+      - mesh
+      port: 80
+    route:
+    - destination:
+        host: egress-gateway.istio-system.svc.cluster.local
+  - match:
+    - gateways:
+      - egress-gateway.istio-system.svc.cluster.local
+      port: 80
+    route:
+    - destination:
+        host: www.baidu.com

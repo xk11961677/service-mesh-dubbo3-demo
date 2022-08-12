@@ -25,7 +25,7 @@ spec:
       containers:
       - name: dubbo-demo-provider
         image: registry.cn-hangzhou.aliyuncs.com/sky11961677/dev:dubbo-provider-0.0.1-SNAPSHOT
-        imagePullPolicy: IfNotPresent #Always
+        imagePullPolicy: Always
         env:
         - name: JAVA_TOOL_OPTIONS #增加opentelemetry javaagent
           value: "-javaagent:/dubbo-provider/opentelemetry-javaagent.jar -Dotel.resource.attributes=service.name=dubbo-demo-provider -Dotel.traces.exporter=otlp -Dotel.metrics.exporter=otlp -Dotel.propagators=b3 -Dotel.exporter.otlp.endpoint=http://otel-collector.istio-system.svc.cluster.local:4317"
@@ -91,8 +91,8 @@ spec:
       - name: aliyun
       containers:
       - name: dubbo-demo-provider
-        image: registry.cn-hangzhou.aliyuncs.com/sky11961677/dev:dubbo-provider-0.0.1-SNAPSHOT
-        imagePullPolicy: IfNotPresent
+        image: registry.cn-hangzhou.aliyuncs.com/sky11961677/dev:dubbo-provider-0.0.2-SNAPSHOT
+        imagePullPolicy: Always
         env:
         - name: JAVA_TOOL_OPTIONS #增加opentelemetry javaagent
           value: "-javaagent:/dubbo-provider/opentelemetry-javaagent.jar -Dotel.resource.attributes=service.name=dubbo-demo-provider -Dotel.traces.exporter=otlp -Dotel.metrics.exporter=otlp -Dotel.propagators=b3 -Dotel.exporter.otlp.endpoint=http://otel-collector.istio-system.svc.cluster.local:4317"

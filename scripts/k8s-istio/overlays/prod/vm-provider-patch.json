@@ -6,12 +6,12 @@
   },
   {
     "op": "replace",
-    "path": "/spec/tcp/0/route/0/destination/host",
+    "path": "/spec/http/0/route/0/destination/host",
     "value": "prod-dubbo-demo-provider"
   },
   {
     "op": "replace",
-    "path": "/spec/tcp/0/route/1/destination/host",
+    "path": "/spec/http/0/route/1/destination/host",
     "value": "prod-dubbo-demo-provider"
   }
 ]

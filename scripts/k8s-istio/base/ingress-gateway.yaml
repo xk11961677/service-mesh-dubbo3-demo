@@ -15,7 +15,6 @@ spec:
     #- "dubbo.self.example.com"
     - "*"
 
-
 ---
 
 apiVersion: networking.istio.io/v1alpha3
@@ -25,26 +24,26 @@ metadata:
   namespace: dubbo-self
 spec:
   hosts:
-    - "172.18.30.246"
+  - "172.18.30.246"
   gateways:
-    - dubbo-self-ingress-gateway
+  - dubbo-self-ingress-gateway
   http:
-    - match:
-        - uri:
-            exact: /hello
-        - uri:
-            prefix: /dubbo-demo-consumer
-      route:
-        - destination:
-            port:
-              number: 8081
-            host: dubbo-demo-consumer.dubbo-self.svc.cluster.local
-            subset: v1  #指定到特定子集
-    - match:
-        - uri:
-            prefix: /dubbo-demo-provider
-      route:
-        - destination:
-            port:
-              number: 8080
-            host: dubbo-demo-provider.dubbo-self.svc.cluster.local
+  - match:
+    - uri:
+        exact: /hello
+    - uri:
+        prefix: /dubbo-demo-consumer
+    route:
+    - destination:
+        port:
+          number: 8081
+        host: dubbo-demo-consumer.dubbo-self.svc.cluster.local
+        subset: v1  #指定到特定子集
+  - match:
+    - uri:
+        prefix: /dubbo-demo-provider
+    route:
+    - destination:
+        port:
+          number: 8080
+        host: dubbo-demo-provider.dubbo-self.svc.cluster.local
