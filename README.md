@@ -16,7 +16,7 @@ export NEXUS_PASSWORD=私服密码
 export JIB_USERNAME=阿里云镜像账号
 export JIB_PASSWORD=阿里云镜像密码
 ```
-1. 启动前添加JVM参数
+1. 启动前添加JVM参数 
 ```
 --add-opens java.base/sun.net.util=ALL-UNNAMED --add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/java.math=ALL-UNNAMED
 ```
@@ -75,7 +75,7 @@ e) 消费端入口访问地址: http://172.18.30.246/dubbo-demo-consumer/hello |
 ```
 
 3. [google jib 镜像打包工具](https://github.com/GoogleContainerTools/jib)
-   [如何添加参数到镜像](https://github.com/GoogleContainerTools/jib/blob/master/docs/faq.md#how-do-i-set-parameters-for-my-image-at-runtime)
+     [如何添加参数到镜像](https://github.com/GoogleContainerTools/jib/blob/master/docs/faq.md#how-do-i-set-parameters-for-my-image-at-runtime)
 
 4. [Kustomize管理yaml清单](https://kubernetes.io/zh-cn/docs/tasks/manage-kubernetes-objects/kustomization/)
 
@@ -111,6 +111,8 @@ kubectl create secret docker-registry aliyun \
 
 ## 示例图片
 ![istio-dubbo](docs/images/istio-dubbo.png)
+
+![istio-vm-weight](docs/images/istio-vm-weight.png)
 
 ![istio-dubbo-opentelemetry](docs/images/istio-dubbo-opentelemetry.png)
 
