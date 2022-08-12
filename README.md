@@ -102,6 +102,13 @@ kubectl create secret docker-registry aliyun \
 
 6. [k8s切换namespace等功能](https://github.com/sbstp/kubie)
 
+7. 测试从网关请求到dubbo-provider权重
+```
+# 执行scripts/k8s-istio/test-ingress-gateway.sh脚本
+chmod +x test-ingress-gateway.sh
+sh test-ingress-gateway.sh
+```
+
 ## 待完成
 1. 先使用springboot作为存活探针，后期可使用dubbo自定义存活与就绪探针(官方支持扩展)
 2. k8s configmap springboot热更新

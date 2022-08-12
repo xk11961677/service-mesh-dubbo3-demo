@@ -21,6 +21,7 @@ service-entry.yaml
 envoy-filter.yaml
 [envoy健康检查配置手册](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/core/v3/health_check.proto#envoy-v3-api-msg-config-core-v3-healthcheck)
 
+## test-ingress-gateway.sh脚本 测试从网关请求到dubbo-provider权重
 
 ## [Kustomize管理yaml清单](https://kubernetes.io/zh-cn/docs/tasks/manage-kubernetes-objects/kustomization/)
 
