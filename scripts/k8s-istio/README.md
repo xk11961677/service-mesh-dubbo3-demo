@@ -44,3 +44,14 @@ kubectl apply -k ./
 #删除prod目录资源
 kubectl delete -k ./
 ```
+
+### 约束
+
+* 修改vr与dr顺序
+
+  在添加版本子集的时候，需要先修改 DR ，等 DR 生效后再修改 VS。
+
+  在删除版本子集的时候， 需要先修改 VS，等 VS 生效后再修改 DR。
+* yaml文件属性需要使用FQDN：(Fully Qualified Domain Name)
+* grpc 服务配置自定义的重试策略，避免istio默认的重试5次。(todo)
+* ingress-gateway中router需要有默认的 subset: default

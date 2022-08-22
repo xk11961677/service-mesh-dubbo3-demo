@@ -1,0 +1,66 @@
+- name: dubbo-demo-consumer-v1
+  serviceType: deployment
+  containers:
+    - name: dubbo-demo-consumer
+      dev:
+        gitUrl: ""
+        image: registry.cn-hangzhou.aliyuncs.com/sky11961677/dev:dubbo-consumer-0.0.1-SNAPSHOT
+        shell: bash
+        workDir: /home/nocalhost-dev
+        # todo 总创建失败PVC
+#        storageClass: "local"
+#        persistentVolumeDirs:
+#          - path: "/root/.gradle"
+#            capacity: 2Gi
+        sync:
+          type: send
+          filePattern:
+            - ./
+          ignoreFilePattern:
+            - ".git"
+            - ".github"
+            - ".idea"
+        env:
+          - name: JAVA_TOOL_OPTIONS #增加opentelemetry javaagent
+            value: ""
+        command:
+          build: [ "./gradlew", "dubbo-consumer", "build" ]
+          run: [ "./gradlew", "dubbo-consumer" , "bootRun" ]
+          debug: [ "./scripts/debug/conusmer.sh" ]
+        debug:
+          remoteDebugPort: 19001
+        hotReload: false
+        portForward:
+          - 19000:8081
+
+- name: dubbo-demo-provider-v1
+  serviceType: deployment
+  containers:
+    - name: dubbo-demo-provider
+      dev:
+        gitUrl: ""
+        image: registry.cn-hangzhou.aliyuncs.com/sky11961677/dev:dubbo-provider-0.0.1-SNAPSHOT
+        shell: bash
+        workDir: /home/nocalhost-dev
+        sync:
+          type: send
+          filePattern:
+            - ./
+          ignoreFilePattern:
+            - ".git"
+            - ".github"
+            - ".idea"
+        env:
+          - name: JAVA_TOOL_OPTIONS #增加opentelemetry javaagent
+            value: ""
+        command:
+          build: [ "./gradlew", "dubbo3-demo:dubbo-provider", "build" ]
+          run: [ "./gradlew", "dubbo3-demo:dubbo-provider" , "bootRun" ]
+          debug: [ "./scripts/debug/conusmer.sh" ]
+        debug:
+          remoteDebugPort: 19003
+        hotReload: false
+        portForward:
+          - 19002:8080
+
+

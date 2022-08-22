@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: dubbo-demo-consumer-pre-cm
+data:
+  ENV01: aa
+  ENV02: bb
+  ENV03: cc
+  ENV04: dd

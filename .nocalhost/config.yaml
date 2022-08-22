@@ -1,0 +1,13 @@
+configProperties:
+  version: v2
+  envFile: env.dev
+
+application:
+  name: dubbo3-demo
+  manifestType: kustomizeLocal
+  resourcePath: ["scripts/k8s-istio/base"]
+  env: 
+    - name: DEBUG
+      value: ${DEBUG:-false}
+  services:
+    ${_INCLUDE_:-./base-services.yaml | nindent 4}

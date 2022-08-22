@@ -109,11 +109,21 @@ chmod +x test-ingress-gateway.sh
 sh test-ingress-gateway.sh
 ```
 
+8. 使用idea kubernetes插件连接远端k8s
+![idea_kube_plugin](docs/images/idea_kube_plugin.png)
+![idea_kube_plugin_use](docs/images/idea_kube_plugin_use.png)
+
+9. 使用nocalhost本地调试
+![官网手册](https://nocalhost.dev/docs/introduction)
+![github demo](https://github.com/nocalhost/bookinfo.git)
+
+
 ## 待完成
 1. 先使用springboot作为存活探针，后期可使用dubbo自定义存活与就绪探针(官方支持扩展)
 2. k8s configmap springboot热更新
 3. 现阶段使用kustomize管理需要自己手动创建namespace，另使用namePrefix，项目DubboReference的url也需要改(application.properties配置)
 4. 需要使用kustomize替换镜像版本和环境变量等
+5. 本地调试nocalhost 需要增加pvc，解决每次总下载依赖jar包问题
 
 
 ## 示例图片
