@@ -114,8 +114,30 @@ sh test-ingress-gateway.sh
 ![idea_kube_plugin_use](docs/images/idea_kube_plugin_use.png)
 
 9. 使用nocalhost本地调试
-![官网手册](https://nocalhost.dev/docs/introduction)
-![github demo](https://github.com/nocalhost/bookinfo.git)
+[官网手册](https://nocalhost.dev/docs/introduction)
+[github demo](https://github.com/nocalhost/bookinfo.git)
+
+10. opentelemetry可观测性介绍
+```
+0) 什么是可观测性
+可观察性让我们从外部理解系统，让我们在不知道系统内部工作原理的情况下对系统提出问题。
+此外，它允许我们轻松地排除故障和处理新问题(即“未知的未知”)，并帮助我们回答问题，“为什么会发生这种情况?”
+
+为了能够对系统提出这些问题，必须对应用程序进行适当的检测。也就是说，应用程序代码必须发出跟踪、度量和日志等信号。
+当开发人员不需要添加更多的检测来排除问题时，应用程序就得到了适当的检测，因为他们已经拥有了所需的所有信息。
+
+a) 主要有三部分
+跨语言规范 （Specification）
+API / SDK 
+接收、转换和导出遥测数据的工具，又称为 OpenTelemetry Collector
+
+b) Collector部署模式
+第一种模式可以统称为 Agent 模式。它是把 Collector 部署在应用程序所在的主机内（在 Kubernetes 环境中，可以使用 DaemonSet），或者是在 Kubernetes 环境中通过边车（Sidecar）的方式进行部署。这样，应用采集到的遥测数据可以直接传递给 Collector。
+另一种模式是 Gateway 模式。它把 Collector 当作一个独立的中间件，应用会把采集到的遥测数据往这个中间件里传递。
+
+c) 开源方案实现方式
+```
+![开源方案实现方式](docs/images/opentelemetry.png)
 
 
 ## 待完成
