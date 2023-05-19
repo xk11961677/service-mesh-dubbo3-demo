@@ -60,7 +60,7 @@ export JIB_PASSWORD=阿里云镜像密码
 [GITHUB](https://github.com/open-telemetry)
 [DOCS-CN](https://github.com/open-telemetry/docs-cn)
 [JAVA-DOCS](https://github.com/open-telemetry/opentelemetry-java-docs)
-
+[OpenTelemetry](docs/OpenTelemetry.md)
 
 ```可观测地址
 a) grafana http://172.18.30.246:30611/
